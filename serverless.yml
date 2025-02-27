@@ -26,7 +26,8 @@ functions:
     memorySize: 128
     events:
       - httpApi:
-          method: get
+          method: post
           path: /calculate
+          cors: true
     environment:
       GREET_WHO: ${env:GREET_WHO}
