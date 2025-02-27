@@ -1,0 +1,32 @@
+service: go-serverless-template
+
+frameworkVersion: "3"
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: provided.al2023
+  architecture: arm64
+  deploymentMethod: direct
+  deploymentBucket:
+    name: ${env:AWS_DEPLOYMENT_BUCKET}
+  stage: ${env:STAGE}
+  region: ${env:AWS_REGION}
+  httpApi:
+    cors: true
+
+functions:
+  calculate:
+    package:
+      artifact: bin/calculate.zip
+    handler: bootstrap
+    timeout: 20
+    memorySize: 128
+    events:
+      - httpApi:
+          method: get
+          path: /calculate
+    environment:
+      GREET_WHO: ${env:GREET_WHO}
